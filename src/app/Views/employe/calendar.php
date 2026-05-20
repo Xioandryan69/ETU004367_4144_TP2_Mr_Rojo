@@ -224,7 +224,7 @@ code,pre,.mono{font-family:'DM Mono',monospace}
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-
+                /*
                 events: [
                     {
                         title: 'Réunion équipe',
@@ -242,6 +242,15 @@ code,pre,.mono{font-family:'DM Mono',monospace}
                         allDay: true
                     }
                 ]
+                */
+                events: "<?= site_url('api/conges') ?>",
+
+                    eventClick: function(info) {
+                              alert(
+                                  "Congé: " + info.event.title +
+                                  "\nDébut: " + info.event.start.toLocaleDateString()
+                              );
+                          }
             });
 
             calendar.render();

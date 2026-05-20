@@ -36,4 +36,30 @@ class CalendrierController extends BaseController
 
         return view('employe/calendar',$data);
     }
+
+    public function events()
+    {
+        $session =session();
+        $employId=$session->get('id');
+        $model=new CongeModel();
+
+        $conges=$model->where('employe_id','employeId')->findAll();
+        $events=[];
+        foreach ($conges as $c)
+            {
+                            $color = match($c['statut']) {
+                'approuvee' => '#2ecc71',
+                'refusee'   => '#e74c3c',
+                'en_attente'=> '#f39c12',
+                default      => '#3498db'
+            };
+
+            $events[] = [
+                'title' => 'Congé (' . $c['statut'] . ')',
+                'start' => $c['date_debut'],
+                'end'   => $c['date_fin'],
+                'color' => $color
+            ];
+            }
+    }
 }

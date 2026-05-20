@@ -1,5 +1,7 @@
 <?php
 
+use App\Controllers\CalendrierController;
+use CodeIgniter\Events\Events;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -13,6 +15,7 @@ $routes->get('logout', 'AuthController::logout');
 
 $routes->get('calendar', 'CalendrierController::index');
 $routes->get('chart', 'ChartController::index');
+$routes->get('api/conges','CalendrierController:Events');
 // Groupe employé
 $routes->group('employe', ['filter' => 'auth:employe'], function ($routes) {
     $routes->get('/', 'EmployeController::dashboard');
