@@ -352,7 +352,7 @@ prendre chart.js et offline :
             + [X] 
     + [ ]
 + [ créer calendar javascript 
-    + [ ] table full clendar
-        + [ ]
-    + [ ] chart.js /cdn 
-        + [ ] pie ????
+    + [X] table full clendar
+        + [X]
+    + [X] chart.js /cdn 
+        + [X] pie ????
