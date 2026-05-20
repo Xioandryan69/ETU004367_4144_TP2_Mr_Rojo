@@ -328,21 +328,30 @@ prendre chart.js et offline :
     + [X]  teleharger char.js
     + [X] telecharger index.global.min.js 
         + [X] fullCalendar 
-+ [ ] ajouter la page lien 
++ [X] ajouter la page lien 
++ [X]  ajputer les deux pages 
++ [X] modifier les liens assets 
++ [X] 
 
 + [ ] deux liens 
-    + [ ] 
-    + [ ] page 1   
-        + [ ] import calendar 
-        + [ ] option 
-            + [ ] days 
-            + [ ] week 
-            + [ ] month 
-    + [ ] page 2 
-        + [ ] import chart ou pie 
-            + [ ] generaliser javascipt 
-    + [ ] 
-+ [ ] créer calendar javascript 
+    + [X] 
+    + [X] page 1   
+        + [X] import calendar 
+        + [X] option 
+            + [X] days 
+            + [X] week 
+            + [X] month 
+    + [X] page 2 
+        + [X] import chart ou pie 
+            + [X] generaliser javascipt 
+    + [X]
+
++ [X] donnée statique :
+    + [X] Cree 2 controller 
+            <-> json    
+            + [X] 
+    + [ ]
++ [ créer calendar javascript 
     + [ ] table full clendar
         + [ ]
     + [ ] chart.js /cdn 

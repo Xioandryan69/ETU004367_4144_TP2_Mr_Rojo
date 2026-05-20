@@ -10,8 +10,9 @@ $routes->get('/', 'Home::index');
 $routes->get('login', 'AuthController::home');
 $routes->post('login', 'AuthController::login');
 $routes->get('logout', 'AuthController::logout');
- $routes->get('calendar', 'CalendrierController::index');
 
+$routes->get('calendar', 'CalendrierController::index');
+$routes->get('chart', 'ChartController::index');
 // Groupe employé
 $routes->group('employe', ['filter' => 'auth:employe'], function ($routes) {
     $routes->get('/', 'EmployeController::dashboard');
@@ -23,6 +24,11 @@ $routes->group('employe', ['filter' => 'auth:employe'], function ($routes) {
     $routes->get('profil', 'EmployeController::profil');
     $routes->post('profil', 'EmployeController::updateProfil');
    
+   
+});
+$routes->group('employe',function($routes){
+    $routes->get('calendar', 'CalendrierController::index');
+    $routes->get('chart', 'ChartController::index');
 });
 
 // Groupe RH

@@ -31,7 +31,7 @@ CREATE TABLE employes (
 );
 INSERT INTO employes VALUES(1,'Admin','Super','admin@techmada.mg','$2y$10$pVXj0C334yAqZ7sXf3jVVOzzOU5EIMDlGZhoqpjchQZOAL1yReB9S','admin',1,'2020-01-01',1);
 INSERT INTO employes VALUES(2,'pierre','jeann','rh@techmada.mg','$2y$10$h.3XBXvvBDwhMpizPjJoIemHPdUMMIY2lDUzu69.AL2rkupsiHD02','rh',2,'2021-01-01',1);
-INSERT INTO employes VALUES(3,'lol','huhu','employe@techmada.mg','$2y$10$QYPlBCmYooF3mbuEKmAxwe0qyVOxVAskqBjzy8TDhLx1QaQODDm46','rh',1,'2022-01-01',1);
+INSERT INTO employes VALUES(3,'lol','huhu','employe@techmada.mg','$2y$10$QYPlBCmYooF3mbuEKmAxwe0qyVOxVAskqBjzy8TDhLx1QaQODDm46','employe',1,'2022-01-01',1);
 CREATE TABLE soldes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     employe_id INTEGER NOT NULL,
@@ -86,3 +86,7 @@ INSERT INTO sqlite_sequence VALUES('employes',3);
 INSERT INTO sqlite_sequence VALUES('soldes',6);
 INSERT INTO sqlite_sequence VALUES('conges',6);
 COMMIT;
+
+UPDATE employes
+SET role = 'employe'
+WHERE id = 3;

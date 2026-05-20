@@ -154,6 +154,8 @@ code,pre,.mono{font-family:'DM Mono',monospace}
       <li><a href="<?= site_url('employe/nouveau-conge') ?>"><i class="bi bi-plus-circle"></i> Nouvelle demande</a></li>
       <li><a href="<?= site_url('employe/mes-conges') ?>"><i class="bi bi-calendar3"></i> Mes demandes</a></li>
   <li><a href="<?= site_url('employe/profil') ?>"><i class="bi bi-person"></i> Mon profil</a></li>
+        <li><a href="<?= site_url('employe/calendar') ?>"><i class="bi bi-person"></i> Calendrier</a></li>
+      <li><a href="<?= site_url('employe/chart') ?>"><i class="bi bi-person"></i> Chart</a></li>
     </ul>
     <div class="sidebar-user">
       <div class="s-user-row">

@@ -5,8 +5,7 @@ use App\Models\CongeModel;
 use App\Models\EmployeModel;
 use App\Models\SoldeModel;
 use App\Models\TypeCongeModel;
-
-class CalendrierController extends BaseController
+class ChartController extends BaseController
 {
     public function index()
     {
@@ -34,6 +33,6 @@ class CalendrierController extends BaseController
         }
         */
 
-        return view('employe/calendar',$data);
+        return view('employe/chart');
     }
 }
