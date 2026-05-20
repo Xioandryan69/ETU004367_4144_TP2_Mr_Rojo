@@ -7,9 +7,9 @@ $session = session();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Histogramme Chart.js</title>
+    <title>TechMada RH — Statistiques congés</title>
 
-    <script src="../assets/js/chart.js"></script>
+    <script src="<?= base_url('assets/js/chart.js') ?>"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
     <link
@@ -613,8 +613,56 @@ $session = session();
 
             <div class="content">
                 <div class="container">
-                    <h1>Statistiques des ventes mensuelles</h1>
-                    <canvas id="salesChart"></canvas>
+                    <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:end;justify-content:space-between;margin-bottom:1.25rem">
+                        <div>
+                            <h1 style="margin:0 0 .35rem">Statistiques des congés</h1>
+                            <div style="color:var(--muted);font-size:.9rem">Vue analytique de vos demandes pour <?= (int) $currentYear ?></div>
+                        </div>
+                        <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+                            <div class="solde-card" style="margin:0;min-width:180px">
+                                <div class="solde-header"><span class="solde-type">Demandes totales</span></div>
+                                <div class="solde-nums"><strong><?= (int) $totalConges ?></strong> demandes</div>
+                            </div>
+                            <div class="solde-card" style="margin:0;min-width:180px">
+                                <div class="solde-header"><span class="solde-type">Jours restants</span></div>
+                                <div class="solde-nums"><strong><?= (int) $remainingDays ?></strong> jours</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;align-items:start">
+                        <div class="data-card" style="margin:0;padding:1rem">
+                            <h3 style="margin:0 0 1rem">Congés par mois</h3>
+                            <canvas id="monthlyChart" height="160"></canvas>
+                        </div>
+
+                        <div class="data-card" style="margin:0;padding:1rem">
+                            <h3 style="margin:0 0 1rem">Répartition par type</h3>
+                            <canvas id="typeChart" height="160"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="data-card" style="margin-top:1rem">
+                        <div class="data-card-head">
+                            <h3>Répartition par statut</h3>
+                        </div>
+                        <table class="tbl">
+                            <thead>
+                                <tr>
+                                    <th>Statut</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($statusLabels as $index => $label): ?>
+                                    <tr>
+                                        <td><?= esc((string) $label) ?></td>
+                                        <td><?= (int) ($statusCounts[$index] ?? 0) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
 
@@ -628,45 +676,54 @@ $session = session();
 
 
     <script>
-        const ctx = document.getElementById('salesChart');
+        const monthlyLabels = <?= json_encode($monthlyLabels, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+        const monthlyCounts = <?= json_encode($monthlyCounts, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+        const typeLabels = <?= json_encode($typeLabels, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+        const typeCounts = <?= json_encode($typeCounts, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
 
-        new Chart(ctx, {
+        new Chart(document.getElementById('monthlyChart'), {
             type: 'bar',
             data: {
-                labels: [
-                    'Janvier',
-                    'Février',
-                    'Mars',
-                    'Avril',
-                    'Mai',
-                    'Juin'
-                ],
+                labels: monthlyLabels,
                 datasets: [{
-                    label: 'Ventes',
-                    data: [120, 190, 90, 220, 150, 300],
-                    backgroundColor: [
-                        '#3498db',
-                        '#2ecc71',
-                        '#f39c12',
-                        '#9b59b6',
-                        '#e74c3c',
-                        '#1abc9c'
-                    ],
-                    borderWidth: 1
+                    label: 'Congés déposés',
+                    data: monthlyCounts,
+                    backgroundColor: '#3d7a52',
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { precision: 0 }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('typeChart'), {
+            type: 'doughnut',
+            data: {
+                labels: typeLabels.length ? typeLabels : ['Aucune donnée'],
+                datasets: [{
+                    data: typeCounts.length ? typeCounts : [1],
+                    backgroundColor: ['#3d7a52', '#5fa876', '#1a4f7a', '#b8750a', '#9b59b6', '#c0392b']
                 }]
             },
             options: {
                 responsive: true,
                 plugins: {
                     legend: {
-                        display: true
+                        position: 'bottom'
                     }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+                cutout: '62%'
             }
         });
     </script>

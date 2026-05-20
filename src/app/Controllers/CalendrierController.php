@@ -40,7 +40,7 @@ class CalendrierController extends BaseController
     public function events()
     {
         $session = session();
-        $employId = $session->get('id');
+        $employId = (int) $session->get('id');
         $model = new CongeModel();
 
         $conges = $model->where('employe_id', $employId)->findAll();
@@ -56,7 +56,8 @@ class CalendrierController extends BaseController
             $events[] = [
                 'title' => 'Congé (' . $c['statut'] . ')',
                 'start' => $c['date_debut'],
-                'end' => $c['date_fin'],
+                'end' => date('Y-m-d', strtotime($c['date_fin'] . ' +1 day')),
+                'allDay' => true,
                 'color' => $color
             ];
         }

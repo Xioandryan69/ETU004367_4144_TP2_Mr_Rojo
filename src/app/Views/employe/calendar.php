@@ -209,7 +209,7 @@ code,pre,.mono{font-family:'DM Mono',monospace}
 
 
     <!-- JS FullCalendar -->
-    <script src="../assets/js/index.global.min.js"></script>
+    <script src="<?= base_url('assets/js/index.global.min.js') ?>"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -243,7 +243,7 @@ code,pre,.mono{font-family:'DM Mono',monospace}
                     }
                 ]
                 */
-                events: "<?= site_url('api/conges') ?>",
+                events: "<?= site_url('employe/api/conges') ?>",
 
                     eventClick: function(info) {
                               alert(
