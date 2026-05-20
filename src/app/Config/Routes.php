@@ -15,7 +15,7 @@ $routes->get('logout', 'AuthController::logout');
 
 $routes->get('calendar', 'CalendrierController::index');
 $routes->get('chart', 'ChartController::index');
-$routes->get('api/conges','CalendrierController:Events');
+$routes->get('api/conges','CalendrierController::events');
 // Groupe employé
 $routes->group('employe', ['filter' => 'auth:employe'], function ($routes) {
     $routes->get('/', 'EmployeController::dashboard');

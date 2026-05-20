@@ -5,7 +5,7 @@ use App\Models\CongeModel;
 use App\Models\EmployeModel;
 use App\Models\SoldeModel;
 use App\Models\TypeCongeModel;
-
+8
 class CalendrierController extends BaseController
 {
     public function index()
@@ -17,7 +17,7 @@ class CalendrierController extends BaseController
         $typeCongeModel = new TypeCongeModel();
         $data['conges'] = $congeModel->getCongesByEmploye($employeId);
         $data['soldes'] = $soldeModel->getSoldesByEmploye($employeId);
-         $data['typesConge'] = $typeCongeModel->findAll();
+        $data['typesConge'] = $typeCongeModel->findAll();
         /*
         if (session()->get('isLoggedIn')) {
             $role = session()->get('role');
@@ -34,32 +34,32 @@ class CalendrierController extends BaseController
         }
         */
 
-        return view('employe/calendar',$data);
+        return view('employe/calendar', $data);
     }
 
     public function events()
     {
-        $session =session();
-        $employId=$session->get('id');
-        $model=new CongeModel();
+        $session = session();
+        $employId = $session->get('id');
+        $model = new CongeModel();
 
-        $conges=$model->where('employe_id','employeId')->findAll();
-        $events=[];
-        foreach ($conges as $c)
-            {
-                            $color = match($c['statut']) {
+        $conges = $model->where('employe_id', $employId)->findAll();
+        $events = [];
+        foreach ($conges as $c) {
+            $color = match ($c['statut']) {
                 'approuvee' => '#2ecc71',
-                'refusee'   => '#e74c3c',
-                'en_attente'=> '#f39c12',
-                default      => '#3498db'
+                'refusee' => '#e74c3c',
+                'en_attente' => '#f39c12',
+                default => '#3498db'
             };
 
             $events[] = [
                 'title' => 'Congé (' . $c['statut'] . ')',
                 'start' => $c['date_debut'],
-                'end'   => $c['date_fin'],
+                'end' => $c['date_fin'],
                 'color' => $color
             ];
-            }
+        }
+        return $this->response->setJSON($events);
     }
 }
