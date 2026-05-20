@@ -10,6 +10,7 @@ $routes->get('/', 'Home::index');
 $routes->get('login', 'AuthController::home');
 $routes->post('login', 'AuthController::login');
 $routes->get('logout', 'AuthController::logout');
+ $routes->get('calendar', 'CalendrierController::index');
 
 // Groupe employé
 $routes->group('employe', ['filter' => 'auth:employe'], function ($routes) {
@@ -21,6 +22,7 @@ $routes->group('employe', ['filter' => 'auth:employe'], function ($routes) {
     $routes->post('conges/annuler/(:num)', 'EmployeController::cancel/$1');
     $routes->get('profil', 'EmployeController::profil');
     $routes->post('profil', 'EmployeController::updateProfil');
+   
 });
 
 // Groupe RH
@@ -53,4 +55,6 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     // Soldes
     $routes->get('soldes', 'AdminController::soldes');
     $routes->post('soldes/update/(:num)', 'AdminController::updateSolde/$1');
+
+    
 });

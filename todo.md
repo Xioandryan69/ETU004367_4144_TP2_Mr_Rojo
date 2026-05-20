@@ -323,6 +323,13 @@ obligatoire
 
 
 
+TP-2 :
+prendre chart.js et offline :
+    + [X]  teleharger char.js
+    + [X] telecharger index.global.min.js 
+        + [X] fullCalendar 
++ [ ] ajouter la page lien 
+
 + [ ] deux liens 
     + [ ] 
     + [ ] page 1   
