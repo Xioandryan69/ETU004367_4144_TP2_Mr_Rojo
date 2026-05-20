@@ -3,37 +3,43 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
-class BaseController extends Controller
+/**
+ * BaseController provides a convenient place for loading components
+ * and performing functions that are needed by all your controllers.
+ *
+ * Extend this class in any new controllers:
+ * ```
+ *     class Home extends BaseController
+ * ```
+ *
+ * For security, be sure to declare any new methods as protected or private.
+ */
+abstract class BaseController extends Controller
 {
     /**
-     * @var array<int, string>
+     * Be sure to declare properties for any property fetch you initialized.
+     * The creation of dynamic property is deprecated in PHP 8.2.
      */
-    protected $helpers = ['form', 'url'];
 
-    protected function requireRole(string $role)
-    {
-        $session = session();
-        if ($session->get('role') !== $role) {
-            $session->setFlashdata('error', 'Acces refuse.');
-            return redirect()->to('/');
-        }
-
-        return null;
-    }
+    // protected $session;
 
     /**
-     * @param array<int, string> $roles
+     * @return void
      */
-    protected function requireAnyRole(array $roles)
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
-        $session = session();
-        $current = (string) $session->get('role');
-        if (!in_array($current, $roles, true)) {
-            $session->setFlashdata('error', 'Acces refuse.');
-            return redirect()->to('/');
-        }
+        // Load here all helpers you want to be available in your controllers that extend BaseController.
+        // Caution: Do not put the this below the parent::initController() call below.
+        // $this->helpers = ['form', 'url'];
 
-        return null;
+        // Caution: Do not edit this line.
+        parent::initController($request, $response, $logger);
+
+        // Preload any models, libraries, etc, here.
+        // $this->session = service('session');
     }
 }

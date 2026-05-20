@@ -320,3 +320,23 @@ obligatoire
     + [X] EmployeController
 + [ ] localhost:3000
 .env 
+
+
+
++ [ ] deux liens 
+    + [ ] 
+    + [ ] page 1   
+        + [ ] import calendar 
+        + [ ] option 
+            + [ ] days 
+            + [ ] week 
+            + [ ] month 
+    + [ ] page 2 
+        + [ ] import chart ou pie 
+            + [ ] generaliser javascipt 
+    + [ ] 
++ [ ] créer calendar javascript 
+    + [ ] table full clendar
+        + [ ]
+    + [ ] chart.js /cdn 
+        + [ ] pie ????

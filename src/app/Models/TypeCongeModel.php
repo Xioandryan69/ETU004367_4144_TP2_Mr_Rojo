@@ -6,11 +6,9 @@ use CodeIgniter\Model;
 
 class TypeCongeModel extends Model
 {
-    protected $table = 'types_conge';
-    protected $primaryKey = 'id';
-    protected $allowedFields = [
-        'libelle',
-        'jours_annuels',
-        'deductible',
-    ];
+    protected $table            = 'types_conge';
+    protected $primaryKey       = 'id';
+    protected $useAutoIncrement = true;
+    protected $returnType       = 'array';
+    protected $allowedFields    = ['libelle', 'jours_annuels', 'deductible'];
 }

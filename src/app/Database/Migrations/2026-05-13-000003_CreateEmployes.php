@@ -10,54 +10,50 @@ class CreateEmployes extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
+                'type'           => 'INTEGER',
                 'auto_increment' => true,
             ],
             'nom' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 100,
+                'type'       => 'TEXT',
+                'null'       => true,
             ],
             'prenom' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 100,
+                'type'       => 'TEXT',
+                'null'       => true,
             ],
             'email' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 150,
+                'type'       => 'TEXT',
+                'null'       => true,
+                'unique'     => true,
             ],
             'password' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 255,
+                'type'       => 'TEXT',
+                'null'       => true,
             ],
             'role' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 20,
+                'type'       => 'TEXT',
+                'null'       => true,
             ],
             'departement_id' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
+                'type'       => 'INTEGER',
+                'null'       => true,
             ],
             'date_embauche' => [
-                'type' => 'DATE',
+                'type' => 'TEXT',
+                'null' => true,
             ],
             'actif' => [
-                'type'       => 'TINYINT',
-                'constraint' => 1,
+                'type'       => 'INTEGER',
                 'default'    => 1,
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addUniqueKey('email');
-        $this->forge->addKey('departement_id');
-        $this->forge->addForeignKey('departement_id', 'departements', 'id', 'CASCADE', 'RESTRICT');
-        $this->forge->createTable('employes', true);
+        $this->forge->addForeignKey('departement_id', 'departements', 'id');
+        $this->forge->createTable('employes');
     }
 
     public function down()
     {
-        $this->forge->dropTable('employes', true);
+        $this->forge->dropTable('employes');
     }
 }

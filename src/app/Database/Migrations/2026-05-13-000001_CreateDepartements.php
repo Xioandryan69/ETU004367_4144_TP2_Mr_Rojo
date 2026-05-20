@@ -10,14 +10,12 @@ class CreateDepartements extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
+                'type'           => 'INTEGER',
                 'auto_increment' => true,
             ],
             'nom' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 100,
+                'type'       => 'TEXT',
+                'null'       => false,
             ],
             'description' => [
                 'type' => 'TEXT',
@@ -25,11 +23,11 @@ class CreateDepartements extends Migration
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->createTable('departements', true);
+        $this->forge->createTable('departements');
     }
 
     public function down()
     {
-        $this->forge->dropTable('departements', true);
+        $this->forge->dropTable('departements');
     }
 }

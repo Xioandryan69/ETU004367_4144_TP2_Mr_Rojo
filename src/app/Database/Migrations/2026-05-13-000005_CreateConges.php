@@ -3,7 +3,6 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
-use CodeIgniter\Database\RawSql;
 
 class CreateConges extends Migration
 {
@@ -11,67 +10,42 @@ class CreateConges extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
+                'type'           => 'INTEGER',
                 'auto_increment' => true,
             ],
             'employe_id' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
+                'type'       => 'INTEGER',
+                'null'       => false,
             ],
             'type_conge_id' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
+                'type'       => 'INTEGER',
+                'null'       => false,
             ],
             'date_debut' => [
-                'type' => 'DATE',
+                'type'       => 'TEXT',
+                'null'       => false,
             ],
             'date_fin' => [
-                'type' => 'DATE',
-            ],
-            'nb_jours' => [
-                'type'       => 'INT',
-                'constraint' => 11,
+                'type'       => 'TEXT',
+                'null'       => false,
             ],
             'motif' => [
-                'type' => 'TEXT',
-                'null' => true,
+                'type'       => 'TEXT',
+                'null'       => true,
             ],
             'statut' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 20,
+                'type'       => 'TEXT',
                 'default'    => 'en_attente',
-            ],
-            'commentaire_rh' => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
-            'created_at' => [
-                'type'    => 'DATETIME',
-                'default' => new RawSql('CURRENT_TIMESTAMP'),
-            ],
-            'traite_par' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
-                'null'       => true,
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addKey('employe_id');
-        $this->forge->addKey('type_conge_id');
-        $this->forge->addKey('traite_par');
-        $this->forge->addForeignKey('employe_id', 'employes', 'id', 'CASCADE', 'RESTRICT');
-        $this->forge->addForeignKey('type_conge_id', 'types_conge', 'id', 'CASCADE', 'RESTRICT');
-        $this->forge->addForeignKey('traite_par', 'employes', 'id', 'SET NULL', 'RESTRICT');
-        $this->forge->createTable('conges', true);
+        $this->forge->addForeignKey('employe_id', 'employes', 'id');
+        $this->forge->addForeignKey('type_conge_id', 'types_conge', 'id');
+        $this->forge->createTable('conges');
     }
 
     public function down()
     {
-        $this->forge->dropTable('conges', true);
+        $this->forge->dropTable('conges');
     }
 }

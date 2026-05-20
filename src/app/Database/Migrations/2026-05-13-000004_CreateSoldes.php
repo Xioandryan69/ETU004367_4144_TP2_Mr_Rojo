@@ -10,45 +10,38 @@ class CreateSoldes extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
+                'type'           => 'INTEGER',
                 'auto_increment' => true,
             ],
             'employe_id' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
+                'type'       => 'INTEGER',
+                'null'       => false,
             ],
             'type_conge_id' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
+                'type'       => 'INTEGER',
+                'null'       => false,
             ],
             'annee' => [
-                'type'       => 'INT',
-                'constraint' => 4,
+                'type'       => 'TEXT',
+                'null'       => false,
             ],
             'jours_attribues' => [
-                'type'       => 'INT',
-                'constraint' => 11,
+                'type'       => 'INTEGER',
+                'null'       => false,
             ],
             'jours_pris' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'default'    => 0,
+                'type'       => 'INTEGER',
+                'null'       => false,
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addKey('employe_id');
-        $this->forge->addKey('type_conge_id');
-        $this->forge->addForeignKey('employe_id', 'employes', 'id', 'CASCADE', 'RESTRICT');
-        $this->forge->addForeignKey('type_conge_id', 'types_conge', 'id', 'CASCADE', 'RESTRICT');
-        $this->forge->createTable('soldes', true);
+        $this->forge->addForeignKey('employe_id', 'employes', 'id');
+        $this->forge->addForeignKey('type_conge_id', 'types_conge', 'id');
+        $this->forge->createTable('soldes');
     }
 
     public function down()
     {
-        $this->forge->dropTable('soldes', true);
+        $this->forge->dropTable('soldes');
     }
 }

@@ -6,57 +6,53 @@ use App\Models\EmployeModel;
 
 class AuthController extends BaseController
 {
+    private array $dashboards = [
+        'admin'   => 'admin',
+        'rh'      => 'rh',
+        'employe' => 'employe/dashboard',
+    ];
+
+    public function home()
+    {
+        return view('login');
+    }
     public function login()
     {
-        $session = session();
-        if (strtolower($this->request->getMethod()) === 'post') {
-            $email = trim((string) $this->request->getPost('email'));
-            $password = (string) $this->request->getPost('password');
+        $email    = $this->request->getPost('email');
+        $password = $this->request->getPost('password');
 
-            if ($email === '' || $password === '') {
-                $session->setFlashdata('error', 'Email et mot de passe requis.');
-                return redirect()->to('/login');
-            }
+        $model   = new EmployeModel();
+        $employe = $model->getEmployeByEmail($email);
 
-            $model = new EmployeModel();
-            $employe = $model->findByEmail($email);
-
-            if (!$employe || !password_verify($password, $employe['password'])) {
-                $session->setFlashdata('error', 'Identifiants incorrects.');
-                return redirect()->to('/login');
-            }
-
-            if ((int) $employe['actif'] !== 1) {
-                $session->setFlashdata('error', 'Compte desactive.');
-                return redirect()->to('/login');
-            }
-
-            $session->regenerate();
-            $session->set([
-                'employe_id' => $employe['id'],
-                'employe_nom' => trim($employe['prenom'] . ' ' . $employe['nom']),
-                'role' => $employe['role'],
-                'departement_id' => $employe['departement_id'],
-            ]);
-
-            switch ($employe['role']) {
-                case 'admin':
-                    return redirect()->to('/admin');
-                case 'rh':
-                    return redirect()->to('/rh');
-                default:
-                    return redirect()->to('/employe');
-            }
+        if (!$employe || (int)$employe['actif'] !== 1 ) {
+            return redirect()->back()->withInput()->with('error', 'Email ou mot de passe incorrect, ou compte inactif.');
         }
 
-        return view('auth/login', [
-            'title' => 'Connexion',
+        session()->set([
+            'id'         => $employe['id'],
+            'nom'        => $employe['prenom'] . ' ' . $employe['nom'],
+            'email'      => $employe['email'],
+            'role'       => $employe['role'],
+            'isLoggedIn' => true,
         ]);
+
+        $destination = $this->dashboards[$employe['role']] ?? 'employe';
+
+        return redirect()->to(base_url($destination . "/"));
     }
 
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/login');
+        return redirect()->to(site_url('login'));
+    }
+
+    // ─── Redirection selon le rôle ──────────────────────────────────────────
+    private function redirectByRole(string $role)
+    {
+        // Cherche le dashboard dans le tableau $dashboards
+        // Si le rôle n'existe pas, on envoie vers employe par défaut
+        $destination = $this->dashboards[$role] ?? 'employe/dashboard';
+        return redirect()->to(site_url($destination));
     }
 }

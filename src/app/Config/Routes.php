@@ -1,66 +1,56 @@
 <?php
 
 use CodeIgniter\Router\RouteCollection;
-use Config\Services;
 
 /**
  * @var RouteCollection $routes
  */
+$routes->get('/', 'Home::index');
 
-$routes = Services::routes();
-
-if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
-	require SYSTEMPATH . 'Config/Routes.php';
-}
-
-$routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('AuthController');
-$routes->setDefaultMethod('login');
-$routes->setTranslateURIDashes(false);
-$routes->set404Override();
-$routes->setAutoRoute(false);
-
-$routes->get('/', 'AuthController::login');
-$routes->get('login', 'AuthController::login');
+$routes->get('login', 'AuthController::home');
 $routes->post('login', 'AuthController::login');
 $routes->get('logout', 'AuthController::logout');
 
-$routes->group('employe', ['filter' => 'auth:employe'], static function (RouteCollection $routes) {
-	$routes->get('/', 'Employe\DashboardController::index');
-	$routes->get('conges', 'Employe\CongeController::index');
-	$routes->get('conges/creer', 'Employe\CongeController::create');
-	$routes->post('conges/creer', 'Employe\CongeController::store');
-	$routes->post('conges/(:num)/annuler', 'Employe\CongeController::annuler/$1');
-	$routes->get('soldes', 'Employe\SoldeController::index');
-	$routes->get('profil', 'Employe\ProfilController::index');
+// Groupe employé
+$routes->group('employe', ['filter' => 'auth:employe'], function ($routes) {
+    $routes->get('/', 'EmployeController::dashboard');
+    $routes->get('dashboard', 'EmployeController::dashboard');
+    $routes->get('mes-conges', 'EmployeController::index');
+    $routes->get('nouveau-conge', 'EmployeController::create');
+    $routes->post('nouveau-conge', 'EmployeController::store');
+    $routes->post('conges/annuler/(:num)', 'EmployeController::cancel/$1');
+    $routes->get('profil', 'EmployeController::profil');
+    $routes->post('profil', 'EmployeController::updateProfil');
 });
 
-$routes->group('rh', ['filter' => 'auth:rh,admin'], static function (RouteCollection $routes) {
-	$routes->get('/', 'RH\DemandeController::index');
-	$routes->get('demandes', 'RH\DemandeController::index');
-	$routes->post('demandes/(:num)/approuver', 'RH\DemandeController::approuver/$1');
-	$routes->post('demandes/(:num)/refuser', 'RH\DemandeController::refuser/$1');
-	$routes->get('soldes', 'RH\SoldeController::index');
+// Groupe RH
+$routes->group('rh', ['filter' => 'auth:rh,admin'], function ($routes) {
+    $routes->get('/', 'RhController::index');
+    $routes->post('approve/(:num)', 'RhController::approve/$1');
+    $routes->post('refuse/(:num)', 'RhController::refuse/$1');
 });
 
-$routes->group('admin', ['filter' => 'auth:admin'], static function (RouteCollection $routes) {
-	$routes->get('/', 'Admin\DashboardController::index');
-	$routes->get('dashboard', 'Admin\DashboardController::index');
-	$routes->get('demandes', 'Admin\DemandeController::index');
-	$routes->get('employes', 'Admin\EmployeController::index');
-	$routes->post('employes/creer', 'Admin\EmployeController::create');
-	$routes->get('employes/(:num)/editer', 'Admin\EmployeController::edit/$1');
-	$routes->post('employes/(:num)/editer', 'Admin\EmployeController::update/$1');
-	$routes->post('employes/(:num)/desactiver', 'Admin\EmployeController::deactivate/$1');
+// Groupe admin
+$routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
+    $routes->get('/', 'AdminController::index');
 
-	$routes->get('departements', 'Admin\DepartementController::index');
-	$routes->post('departements/creer', 'Admin\DepartementController::create');
-	$routes->get('departements/(:num)/editer', 'Admin\DepartementController::edit/$1');
-	$routes->post('departements/(:num)/editer', 'Admin\DepartementController::update/$1');
-	$routes->post('departements/(:num)/supprimer', 'Admin\DepartementController::delete/$1');
+    // Employés
+    $routes->get('employes', 'AdminController::employes');
+    $routes->post('employes', 'AdminController::storeEmploye');
+    $routes->post('employes/toggle/(:num)', 'AdminController::toggleEmploye/$1');
+    $routes->post('employes/update/(:num)', 'AdminController::updateEmploye/$1');
 
-	$routes->get('types-conge', 'Admin\TypeCongeController::index');
-	$routes->post('types-conge/creer', 'Admin\TypeCongeController::create');
-	$routes->get('types-conge/(:num)/editer', 'Admin\TypeCongeController::edit/$1');
-	$routes->post('types-conge/(:num)/editer', 'Admin\TypeCongeController::update/$1');
+    // Départements
+    $routes->get('departements', 'AdminController::departements');
+    $routes->post('departements', 'AdminController::storeDepartement');
+    $routes->post('departements/delete/(:num)', 'AdminController::deleteDepartement/$1');
+
+    // Types de congé
+    $routes->get('types-conge', 'AdminController::typesConges');
+    $routes->post('types-conge', 'AdminController::storeTypeConge');
+    $routes->post('types-conge/delete/(:num)', 'AdminController::deleteTypeConge/$1');
+
+    // Soldes
+    $routes->get('soldes', 'AdminController::soldes');
+    $routes->post('soldes/update/(:num)', 'AdminController::updateSolde/$1');
 });

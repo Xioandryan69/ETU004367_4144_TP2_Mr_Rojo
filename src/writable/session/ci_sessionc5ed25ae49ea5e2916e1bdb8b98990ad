@@ -1,1 +1,0 @@
-__ci_last_regenerate|i:1778658448;csrf_test_name|s:32:"24e0d57df7c0304455698fa2843656f5";_ci_previous_url|s:46:"http://localhost:8080/index.php/admin/employes";employe_id|i:1;employe_nom|s:10:"Admin Rabe";role|s:5:"admin";departement_id|i:1;success|s:19:"Employe mis a jour.";__ci_vars|a:1:{s:7:"success";s:3:"old";}
